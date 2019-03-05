@@ -10,8 +10,8 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/uploads'
-ASSETS_FOLDER = '/assets'
+UPLOAD_FOLDER = os.path.join('.','uploads')
+ASSETS_FOLDER = os.path.join('.','assets')
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
 auth = HTTPBasicAuth()
@@ -49,7 +49,7 @@ def extract_email_addresses(file):
             email_list.append(line)
     return email_list
 
-@app.route('/', operations=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 #@auth.login_required
 def main():
     '''
@@ -79,16 +79,16 @@ def main():
                 </html
                 '''
             except Exception as err:
-                structlog.get_logger(log).error("Error during file parsing: "+err)
-                return '''
-                <!doctype html>
-                <html>
-                    <body>
-                        <h1>Oops!</h1>
-                        Something went wrong during file processing, check the error log for details
-                    </body>
-                </html
-                '''
+                structlog.get_logger(log).error("Error during file parsing: "+str(err))
+        return '''
+        <!doctype html>
+        <html>
+            <body>
+                <h1>Oops!</h1>
+                Something went wrong during file processing, check the error log for details
+            </body>
+        </html
+        '''
 
     # uploader menu
     return '''
