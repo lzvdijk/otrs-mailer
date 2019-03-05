@@ -1,4 +1,4 @@
-# quick flask file uploader
+# Quick Flask file upload demo
 
 To run the app:
 * open a terminal or command prompt
